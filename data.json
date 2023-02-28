@@ -1,0 +1,74 @@
+{
+  "user": {
+    "info": {
+      "name": "asdf",
+      "rank": "asdf",
+      "cert": "asdf",
+      "currentHealth": 10,
+      "maxHealth": 10,
+      "ops": 10
+    },
+    "skills": [
+      {
+        "name": "Unix",
+        "currentLevel": 1,
+        "currentXP": 0
+      },
+      {
+        "name": "Windows",
+        "currentLevel": 1,
+        "currentXP": 0
+      },
+      {
+        "name": "Networking",
+        "currentLevel": 1,
+        "currentXP": 0
+      },
+      {
+        "name": "Opstation",
+        "currentLevel": 1,
+        "currentXP": 0
+      },
+      {
+        "name": "Implants",
+        "currentLevel": 1,
+        "currentXP": 0
+      },
+      {
+        "name": "Rats",
+        "currentLevel": 1,
+        "currentXP": 0
+      },
+      {
+        "name": "Troubleshooting",
+        "currentLevel": 1,
+        "currentXP": 0
+      },
+      {
+        "name": "Procedures",
+        "currentLevel": 1,
+        "currentXP": 0
+      },
+      {
+        "name": "Hand Jamming",
+        "currentLevel": 1,
+        "currentXP": 0
+      },
+      {
+        "name": "Copy/Paste",
+        "currentLevel": 1,
+        "currentXP": 0
+      },
+      {
+        "name": "Note Taking",
+        "currentLevel": 1,
+        "currentXP": 0
+      },
+      {
+        "name": "Timestamping",
+        "currentLevel": 1,
+        "currentXP": 0
+      }
+    ]
+  }
+}
