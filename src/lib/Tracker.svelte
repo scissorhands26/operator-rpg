@@ -219,6 +219,16 @@
         <div class="player-object">
           <Player />
         </div>
+
+        <div>
+          <span>Inventory</span>
+          <div class="inventory-container">
+            {#each $dataStore.user.items as item}
+              <div class="inventory-item">{item.name}</div>
+            {/each}
+          </div>
+        </div>
+
         <div class="player-damage">
           <span>Completed Ops: {$dataStore.user.info.ops}</span>
         </div>
