@@ -1,8 +1,12 @@
 <script lang="ts">
+  import { each } from "svelte/internal";
   import { writable } from "svelte/store";
   import Player from "./Player.svelte";
 
   let dataStore: any = writable({});
+
+  let storeVisible = false;
+  let skillsVisible = true;
 
   function changeSkill(skillName: string, amount: number) {
     dataStore.update((data) => {
@@ -62,14 +66,34 @@
     });
     fileInput.click();
   }
+
+  function buyItem(item) {
+    console.log(item.cost);
+    if ($dataStore.user.info.gold >= item.cost) {
+      $dataStore.user.info.gold -= item.cost;
+      $dataStore.user.items.push(item);
+    } else {
+      alert("You're broke!");
+    }
+  }
+
+  function showStore() {
+    skillsVisible = false;
+    storeVisible = true;
+  }
+  function showSkills() {
+    storeVisible = false;
+    skillsVisible = true;
+  }
 </script>
 
 {#if Object.keys($dataStore).length === 0}
   <button on:click={() => loadData()}>Load</button>
-{:else}
+{:else if storeVisible === false}
   <div>
     <div class="load-save-buttons">
       <button on:click={() => loadData()}>Load</button>
+      <button on:click={showStore}>Store</button>
       <button on:click={() => saveData($dataStore)}>Save</button>
     </div>
     <div class="container">
@@ -89,6 +113,77 @@
           </div>
         {/each}
       </div>
+      <div class="player-container">
+        <div>
+          <h2>
+            {$dataStore.user.info.rank}
+            {$dataStore.user.info.name}, {$dataStore.user.info.cert}
+          </h2>
+          <div>
+            <div>
+              <span>
+                Gold: {#each Array.from( { length: $dataStore.user.info.gold } ) as _, index}
+                  <span class="gold-coins">🪙</span>
+                {/each}</span
+              >
+            </div>
+            <span>Health:</span>
+            <span class="hearts">
+              {#each Array.from( { length: $dataStore.user.info.maxHealth } ) as _, index}
+                {#if index < $dataStore.user.info.currentHealth}
+                  ❤️
+                {:else}
+                  🖤
+                {/if}
+              {/each}
+            </span>
+            <div>
+              {#if $dataStore.user.info.currentHealth === 0}<button
+                  on:click={respawn}>Respawn</button
+                >{:else}<button on:click={decreaseHealth}>Take Damage</button
+                >{/if}
+            </div>
+          </div>
+        </div>
+        <div class="player-object">
+          <Player />
+        </div>
+        <div>
+          <span>Inventory</span>
+          <div class="inventory-container">
+            {#each $dataStore.user.items as item}
+              <div class="inventory-item">{item.name}</div>
+            {/each}
+          </div>
+        </div>
+        <div class="player-damage">
+          <span>Completed Ops: {$dataStore.user.info.ops}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+{:else}
+  <div>
+    <div class="load-save-buttons">
+      <button on:click={() => loadData()}>Load</button>
+      <button on:click={showSkills}>Skills</button>
+      <button on:click={() => saveData($dataStore)}>Save</button>
+    </div>
+
+    <div class="container">
+      <div class="store-container">
+        {#each $dataStore.game.store as item}
+          <div class="store-item">
+            <div>{item.name}</div>
+            <div>{item.type}</div>
+            <div>
+              Price: {item.cost}
+            </div>
+            <button on:click={() => buyItem(item)}>Buy</button>
+          </div>
+        {/each}
+      </div>
+
       <div class="player-container">
         <div>
           <h2>
@@ -145,6 +240,23 @@
   .gold-coins:not(:first-child) {
     margin-left: -20px;
   }
+  .store-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 10px;
+    border: 0.5em solid black;
+    height: 75vh;
+    padding: 10px;
+  }
+  .store-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px;
+    text-align: center;
+    border: 2px solid black;
+  }
   .traits-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -170,6 +282,22 @@
     height: 75vh;
     padding: 10px;
     margin-left: -5px;
+  }
+  .inventory-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 10px;
+    border: 0.5em solid black;
+    padding: 10px;
+  }
+  .inventory-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+    text-align: center;
+    border: 2px solid black;
   }
   .player-object {
     display: flex;

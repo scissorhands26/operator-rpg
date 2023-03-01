@@ -1,4 +1,11 @@
 {
+  "game": {
+    "store": [
+      { "name": "armor", "type": "armor", "value": 10, "cost": 1 },
+      { "name": "shield", "type": "armor", "value": 10, "cost": 5 },
+      { "name": "potion", "type": "health", "value": 10, "cost": 10 }
+    ]
+  },
   "user": {
     "info": {
       "name": "Smith",
