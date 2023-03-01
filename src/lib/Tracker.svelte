@@ -25,6 +25,10 @@
     }
   }
 
+  function respawn() {
+    alert("Needs to be implemented!");
+  }
+
   function saveData(data: any) {
     const a = document.createElement("a");
     const timestamp = new Date().getTime();
@@ -64,7 +68,6 @@
   <button on:click={() => loadData()}>Load</button>
 {:else}
   <div>
-    <h2>User</h2>
     <button on:click={() => saveData($dataStore)}>Save</button>
     <button on:click={() => loadData()}>Load</button>
 
@@ -103,7 +106,10 @@
               {/each}
             </span>
             <div>
-              <button on:click={decreaseHealth}>Take Damage</button>
+              {#if $dataStore.user.info.currentHealth === 0}<button
+                  on:click={respawn}>Respawn</button
+                >{:else}<button on:click={decreaseHealth}>Take Damage</button
+                >{/if}
             </div>
           </div>
         </div>
