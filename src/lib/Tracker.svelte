@@ -68,9 +68,10 @@
   <button on:click={() => loadData()}>Load</button>
 {:else}
   <div>
-    <button on:click={() => saveData($dataStore)}>Save</button>
-    <button on:click={() => loadData()}>Load</button>
-
+    <div class="load-save-buttons">
+      <button on:click={() => loadData()}>Load</button>
+      <button on:click={() => saveData($dataStore)}>Save</button>
+    </div>
     <div class="container">
       <div class="traits-container">
         {#each $dataStore.user.skills as skill}
@@ -95,7 +96,14 @@
             {$dataStore.user.info.name}, {$dataStore.user.info.cert}
           </h2>
           <div>
-            <p>Health:</p>
+            <div>
+              <span>
+                Gold: {#each Array.from( { length: $dataStore.user.info.gold } ) as _, index}
+                  <span class="gold-coins">🪙</span>
+                {/each}</span
+              >
+            </div>
+            <span>Health:</span>
             <span class="hearts">
               {#each Array.from( { length: $dataStore.user.info.maxHealth } ) as _, index}
                 {#if index < $dataStore.user.info.currentHealth}
@@ -129,6 +137,14 @@
     display: flex;
     flex-direction: row;
   }
+  .load-save-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .gold-coins:not(:first-child) {
+    margin-left: -20px;
+  }
   .traits-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -136,12 +152,12 @@
     gap: 10px;
     border: 0.5em solid black;
     height: 75vh;
+    padding: 10px;
   }
   .trait-item {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 0;
     padding: 0;
     text-align: center;
     border: 2px solid black;
@@ -152,6 +168,8 @@
     border: 0.5em solid black;
     justify-content: space-between;
     height: 75vh;
+    padding: 10px;
+    margin-left: -5px;
   }
   .player-object {
     display: flex;
