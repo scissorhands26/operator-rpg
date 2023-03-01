@@ -1,13 +1,20 @@
 {
   "user": {
     "info": {
-      "name": "asdf",
-      "rank": "asdf",
-      "cert": "asdf",
+      "name": "Smith",
+      "rank": "PVT",
+      "cert": "BCO",
       "currentHealth": 10,
       "maxHealth": 10,
       "ops": 10
     },
+    "items": [
+      {
+        "name": "armor",
+        "type": "armor",
+        "value": 10
+      }
+    ],
     "skills": [
       {
         "name": "Unix",

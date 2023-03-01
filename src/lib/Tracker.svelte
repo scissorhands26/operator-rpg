@@ -23,7 +23,6 @@
     if ($dataStore.user.info.currentHealth > 0) {
       $dataStore.user.info.currentHealth--;
     }
-    console.log($dataStore.user.info);
   }
 
   function saveData(data: any) {
@@ -48,6 +47,14 @@
       const text = await file.text();
       const data = JSON.parse(text);
       dataStore.set(data);
+      console.log($dataStore);
+      $dataStore.user.items.forEach((item) => {
+        if (item.type === "armor") {
+          $dataStore.user.info.maxHealth =
+            $dataStore.user.info.maxHealth + item.value;
+          $dataStore.user.info.currentHealth = $dataStore.user.info.maxHealth;
+        }
+      });
     });
     fileInput.click();
   }
@@ -86,13 +93,15 @@
           </h2>
           <div>
             <p>Health:</p>
-            {#each Array.from( { length: $dataStore.user.info.maxHealth } ) as _, index}
-              <span
-                >{index < $dataStore.user.info.currentHealth
-                  ? "❤️"
-                  : "🖤"}</span
-              >
-            {/each}
+            <span class="hearts">
+              {#each Array.from( { length: $dataStore.user.info.maxHealth } ) as _, index}
+                {#if index < $dataStore.user.info.currentHealth}
+                  ❤️
+                {:else}
+                  🖤
+                {/if}
+              {/each}
+            </span>
             <div>
               <button on:click={decreaseHealth}>Take Damage</button>
             </div>
@@ -141,6 +150,12 @@
   .player-object {
     display: flex;
     justify-content: center;
+  }
+  .hearts {
+    width: 240px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
   .skill-buttons {
     display: flex;
